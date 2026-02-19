@@ -3,3 +3,9 @@ PROJECT IDEAS:
 Lost Item (Campus)
 Lost Pet
 Parking Space Availability
+SecondByte (Not many physical outlets for second-hand tech shopping)
+Study Space Finger (Students waste time finding free study spaces)
+Room & Study Space Availability
+Emergency Help App for Students
+Garbage Collection Tracking System
+Hospital Appointment Booking System
