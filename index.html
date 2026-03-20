@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lost Pet Reporting System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- navbar -->
+     <nav>
+        <div class="logo">🐾 PawFind</div>
+        <ul class ="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="lost-pets.html">Lost Pets</a></li>
+            <li><a href="sightings.html">Report Sighting</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+     </nav>
+
+     <section class="hero">
+        <h1>Help bring missing pets back home</h1>
+        <p>Report a lost pet or share a sighting with your community.</p>
+        <a href="report.html" class="btn-primary">Report Lost Pet</a> <!-- TODO: this button will navigate to the report form page  -->
+     </section>
+
+     <!-- this section should show pets from the database later -->
+      <!-- TODO: connect this to the backend when its ready -->
+     <section class="recent">
+        <h2>Recently Lost</h2>
+        <div class="pet-grid" id="pet-grid">
+            <p>No reports have been made yet.</p>
+        </div>
+     </section>
+
+     <script src="main.js"></script>
+</body>
+</html>
