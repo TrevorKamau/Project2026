@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Report Lost Pet</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+    <!-- navbar  -->
+     <nav>
+        <div class="logo">🐾 PawFind</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lost-pets.html">Lost Pets</a></li>
+            <li><a href="sightings.html">Report Sighting</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+     </nav>
+
+     <!-- Report form -->
+      <section class="form-page">
+        <h2>Report a Lost Pet</h2>
+        <p class="form-sub">Fill in as much detail as possible to help the community find your pet.</p>
+
+        <div class="form-card">
+
+            <!-- Pet info -->
+             <h3>Pet Information</h3>
+
+             <div class="form-group">
+                <label for="petName">Pet Name</label>
+                <input type="text" id="petName" placeholder="e.g. Max" />
+             </div>
+
+             <div class="form-row">
+                <div class="form-group">
+                    <label for="species">Species</label>
+                    <select id="species">
+                        <option value="">Select species</option>
+                        <option>Dog</option>
+                        <option>Cat</option>
+                        <option>Rabbit</option>
+                        <option>Bird</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="breed">Breed</label>
+                    <input type="text" id="breed" placeholder="e.g. Golden Retriever" />
+                </div>
+             </div>
+
+             <div class="form-row">
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="text" id="age" placeholder="e.g. 3 years" />
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gnder</label>
+                    <select id="gender">
+                        <option value="">Select</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+             </div>
+
+             <div class="form-group">
+                <label for="colour">Colour</label>
+                <input type="text" id="colour" placeholder="e.g. Golden with white patches" />
+             </div>
+
+             <div class="form-group">
+                <label for="description">Description</label>
+                <!-- TODO: Add a character counter here later (maybe) -->
+                <textarea id="description" placeholder="Describe your pet - any unique markings, collar colour, microchip info..."></textarea>
+             </div>
+
+             <!-- Last seen location -->
+              <h3 style="margin-top: 24px;">Last known location</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                    <label for="area">Area</label>
+                    <input type="text" id="area" placeholder="e.g. Salthill, Galway" />
+                </div>
+                <div class="form-group">
+                    <label for="dateLost">Date Lost</label>
+                    <input type="date" id="dateLost" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="locationDetails">Additional Location Details</label>
+                <input type="text" id="locationDetails" placeholder="e.g. Near the park on main street" />
+              </div>
+
+              <!-- Photo upload -->
+              <h3 style="margin-top: 24px;">Photo</h3>
+
+              <div class="form-group">
+                <label for="photo">Upload a photo of your pet</label>
+                <!-- TODO: Preview the image after upload -->
+                <input type="file" id="photo" accept="image/*" />
+              </div>
+
+              <!-- Contact info -->
+              <h3 style="margin-top: 24px;">Your Contact Information</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                    <label for="ownerName">Your Name</label>
+                    <input type="text" id="ownerName" placeholder="Full name" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" placeholder="e.g. 087 123 4567" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" />
+              </div>
+
+              <!-- Buttons -->
+               <div class="form-actions">
+                <a href="index.html" class="btn-cancel">Cancel</a>
+                <!-- TODO: This button will send data to the backend later -->
+                 <button class="btn-submit" onclick="submitForm()">Submit Report</button>
+               </div>
+        </div>
+      </section>
+
+      <script src="js/main.js"></script>
+</body>
+</html>
