@@ -4,3 +4,8 @@ console.log("PawFind loaded");
 function submitForm() {
     alert("Report has been submitted!");
 }
+
+//TODO: Will send login details to the backend later
+function handleLogin() {
+    alert("Login clicked!");
+}
