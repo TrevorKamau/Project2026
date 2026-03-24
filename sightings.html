@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Report a Sighting</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- navbar -->
+     <nav>
+        <div class="logo">🐾 PawFind</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lost-pets">Lost Pets</a></li>
+            <li><a href="sightings.html" class="active">Report Sighting</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+     </nav>
+
+     <!-- Sighting form -->
+      <section class="form-page">
+        <h2>Report a Sighting</h2>
+        <p class="form-sub">Spotted a missing pet? You can report it here - no account needed. Your countribution might help reunite a family!</p>
+
+        <!-- Note to user that no login is needed -->
+         <div class="info-box">
+            Anyone can submit a sighting - no account required.
+         </div>
+
+         <div class="form-card">
+
+            <h3>Which pet did you see?</h3>
+            <div class="form-group">
+                <label for="petReport">Select a lost pet report</label>
+                <!-- TODO: This dropdown will be populated from the database later -->
+                 <select id="petReport">
+                    <option value="">Select a lost pet...</option>
+                    <option>Not sure / I don't see the pet listed</option>
+                 </select>
+            </div>
+
+            <!-- Sighting details -->
+             <h3 style="margin-top: 24px;">Sighting Details</h3>
+
+             <div class="form-group">
+                <label for="location">Where did you see the pet?</label>
+                <input type="text" id="location" placeholder="e.g. Near the park on Main Street" />
+             </div>
+
+             <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date you saw it</label>
+                    <input type="date" id="date" />
+                </div>
+                <div class="form-group">
+                    <label for="time">Approximate time</label>
+                    <input type="time" id="time" />
+                </div>
+             </div>
+
+             <div class="form-group">
+                <label for="sightingDescription">What did you see?</label>
+                <textarea id="sightingDescription" placeholder="Describe what you saw - direction it was heading, condition of the pet, collar, anything helpful..."></textarea>
+             </div>
+
+             <!-- Photo -->
+              <h3 style="margin-top: 24px;">Photo (optional)</h3>
+
+              <div class="form-group">
+                <label for="photo">Upload a photo if you have one</label>
+                <!-- TODO: Photo will be sent to backend later -->
+                 <input type="file" id="photo" accept="image/*" />
+              </div>
+
+              <!-- Contact info - optional -->
+               <h3 style="margin-top: 24px;">Your Contact Details (optional)</h3>
+               <p class="form-sub" style="margin-bottom: 16px;">Leave your details if you're happy to be contacted for more info.</p>
+
+               <div class="form-row">
+                <div class="form-group">
+                    <label for="reporterName">Your Name</label>
+                    <input type="text" id="reporterName" placeholder="Anonymous if left blank" />
+                </div>
+                <div class="form-group">
+                    <label for="reporterContact">Phone or Email</label>
+                    <input type="text" id="reporterContact" placeholder="Optional" />
+                </div>
+               </div>
+
+               <!-- Buttons -->
+                <div class="form-actions">
+                    <a href="index.html" class="bgn-cancel">Cancel</a>
+                    <!-- TODO: This will send sighting data to the backend later -->
+                     <button class="btn-submit" onclick="submitSighting()">Submit Sighting</button>
+                </div>
+         </div>
+      </section>
+
+      <script src="js/main.js"></script>
+</body>
+</html>

@@ -14,3 +14,8 @@ function handleLogin() {
 function handleRegister() {
     alert("Register clicked!");
 }
+
+// TODO: Will send this data to the backend later
+function submitSighting() {
+    alert("Sighting submitted!");
+}
