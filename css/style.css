@@ -296,3 +296,64 @@ textarea {
     font-size: 0.875rem;
     margin-bottom: 20px;
 }
+
+/* Page header - Lost Pets page */
+.page-header {
+    background: #1a2340;
+    color: white;
+    padding: 40px 20px;
+}
+
+.page-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+/* Listings page */
+.listings-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.filter-input {
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    outline: none;
+    min-width: 220px;
+}
+
+.filter-input:focus {
+    border-color: #e8540a;
+}
+
+.filter-select {
+    font-family: Arial, sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    outline: none;
+    background: white;
+    color: #222;
+}
+
+.filter-select:focus {
+    border-color: #e8540a;
+}
