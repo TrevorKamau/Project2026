@@ -9,5 +9,5 @@ import java.util.List;
 public interface SightingRepository extends JpaRepository<Sighting, Long> {
 
     // Find sightings for a specific pet report
-    List<Sighting> findByReportId(Long petReportId);
+    List<Sighting> findByPetReportId(Long petReportId);
 }
