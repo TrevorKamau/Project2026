@@ -9,8 +9,28 @@ function submitForm() {
 }
 
 // TODO: Will send login details to the backend later
-function handleLogin() {
-    alert("Login clicked!");
+//function handleLogin() {
+   // alert("Login clicked!");
+//}
+async function handleLogin() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  try {
+    const response = await fetch(`${API_URL}/api/users/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    if (response.ok) {
+      const user = await response.json();
+      localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "index.html";
+    } else {
+      alert("Invalid email or password.");
+    }
+  } catch (error) {
+    alert("Could not connect to server.");
+  }
 }
 
 // ── REGISTER ──
@@ -56,4 +76,9 @@ function Register() {
 // TODO: Will send this data to the backend later
 function submitSighting() {
     alert("Sighting submitted!");
+}
+// LOGOUT
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
 }
