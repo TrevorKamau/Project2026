@@ -51,7 +51,7 @@ function Register() {
     }
 
     // Ensure required fields are filled in
-    if (!user.firstName || !user.lastname || !user.email || !user.password) {
+    if (!user.firstName || !user.lastName || !user.email || !user.password) {
         alert("Please fill in all required fields!");
         return;
     }
@@ -77,8 +77,36 @@ function Register() {
 function submitSighting() {
     alert("Sighting submitted!");
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const authLink = document.getElementById("auth-link");
+    const loggedInUser = localStorage.getItem("user");
+
+    if (loggedInUser && authLink) {
+        const user = JSON.parse(loggedInUser);
+        
+        // Change "Login" to "Logout" after user logs in
+        authLink.textContent = `Logout (${user.firstName})`;
+        authLink.href = "#";
+        
+        authLink.onclick = function() {
+            logout();
+        };
+    }
+});
+
+function checkAuth(event) {
+    if (!localStorage.getItem("user")) {
+        event.preventDefault(); // prevent user to click "report lost pet" before they are logged in
+        alert("You must be logged in to report a pet!");
+        window.location.href = "login.html";
+    }
+}
+
 // LOGOUT
 function logout() {
   localStorage.removeItem("user");
-  window.location.href = "login.html";
+  alert("Logged out successfully");
+  window.location.href = "index.html";
 }
+
