@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pet Details - PawFind</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <nav>
+            <a href="index.html" class="logo">🐾 PawFind</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lost-pets.html">Lost Pets</a></li>
+                <li><a href="login.html" id="auth-link">Login</a></li>
+            </ul>
+        </nav>
+
+        <section class="details-container">
+            <div id="pet-details-content">
+                <p>Loading details...</p>
+            </div>
+            <br>
+            <a href="index.html" class="btn-secondary">Back to Home</a>
+        </section>
+
+        <script src="js/main.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", loadPetDetails);
+        </script>
+    </body>
+</html>

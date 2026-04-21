@@ -3,6 +3,8 @@ console.log("PawFind loaded");
 // Base URL for the backend
 const API_URL = "http://localhost:8080";
 
+let allPets = [];
+
 // ── SUBMIT LOST PET REPORT ──
 async function submitForm() {
     // check if user is logged in
@@ -138,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function() {
             logout();
         };
     }
-    loadRecentPets();
+    loadRecentPets(); // show latest 3 missing pets
+    loadAllPets(); // show everything in lost pets tab including filters
 });
 
 function checkAuth(event) {
@@ -186,5 +189,99 @@ async function loadRecentPets() {
     } catch (error) {
         console.error("Error loading list of lost pets", error);
     }
+}
+
+async function loadPetDetails() {
+    const contentDiv = document.getElementById("pet-details-content");
+    if (!contentDiv) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const petId = urlParams.get('id');
+
+    if (!petId) {
+        contentDiv.innerHTML = "<h2>No pet ID found.</h2>";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets/${petId}`);
+        if (!response.ok) throw new Error("Pet not found");
+
+        const pet = await response.json();
+
+        contentDiv.innerHTML = `
+            <div class="details-card">
+                <h1>${pet.petName}</h1>
+                <div class="status-badge">${pet.status}</div>
+                <hr>
+                <p><strong>Species:</strong> ${pet.species}</p>
+                <p><strong>Breed:</strong> ${pet.breed}</p>
+                <p><strong>Gender:</strong> ${pet.gender}</p>
+                <p><strong>Color:</strong> ${pet.colour}</p>
+                <p><strong>Date Lost:</strong> ${pet.dateLost}</p>
+                <p><strong>Area:</strong> ${pet.area}</p>
+                <p><strong>Specific Location:</strong> ${pet.locationDetails}</p>
+                <div class="description-box">
+                    <h3>Description</h3>
+                    <p>${pet.description}</p>
+                </div>
+            </div>
+        `;
+    } catch (error) {
+        contentDiv.innerHTML = "<h2>Error loading details. It might have been removed.</h2>";
+        console.error(error);
+    }
+}
+
+async function loadAllPets() {
+    const petGrid = document.getElementById("all-pets-grid");
+    if (!petGrid) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets`);
+        allPets = await response.json();
+        displayPets(allPets);
+    } catch (error) {
+        console.error("Error loading list of pets", error);
+    }
+}
+
+function displayPets(petsToDisplay) {
+    const petGrid = document.getElementById("all-pets-grid");
+    petGrid.innerHTML = "";
+
+    if (petsToDisplay.length === 0) {
+        petGrid.innerHTML = "<p class='no-results'>No pets match your search criteria.</p>";
+        return;
+    }
+
+    petsToDisplay.forEach(pet => {
+        const petCard = `
+            <div class="pet-card">
+                <h3>${pet.petName}</h3>
+                <p><strong>Species:</strong> ${pet.species}</p>
+                <p><strong>Breed:</strong> ${pet.breed}</p>
+                <p><strong>Area:</strong> ${pet.area}</p>
+                <a href="pet-details.html?id=${pet.id}" class="btn-secondary">View Details</a>
+            </div>
+        `;
+        petGrid.innerHTML += petCard;
+    });
+}
+
+function filterPets() {
+    const nameQuery = document.getElementById("searchName").value.toLowerCase();
+    const breedQuery = document.getElementById("searchBreed").value.toLowerCase();
+    const speciesQuery = document.getElementById("filterSpecies").value;
+
+    const filtered = allPets.filter(pet => {
+        const matchesName = pet.petName.toLowerCase().includes(nameQuery);
+        const matchesBreed = pet.breed.toLowerCase().includes(breedQuery);
+        const matchesSpecies = (speciesQuery === "all" || pet.species === speciesQuery);
+
+        return matchesName && matchesBreed && matchesSpecies;
+    });
+
+    displayPets(filtered);
 }
 

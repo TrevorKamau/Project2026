@@ -26,34 +26,34 @@
       </section>
 
       <!-- Filters -->
-       <section class="listings-page">
+      <section class="listings-page">
+    <div class="filters">
+        <input type="text" id="searchName" class="filter-input" 
+               placeholder="Search by name..." oninput="filterPets()">
 
-        <!-- TODO: These filters will filter data from the database later -->
-         <div class="filters">
-            <input class="filter-input" type="text" placeholder="Search by name or breed..." />
-            <select class="filter-select">
-                <option value="">All species</option>
-                <option>Dog</option>
-                <option>Cat</option>
-                <option>Rabbit</option>
-                <option>Bird</option>
-                <option>Other</option>
-            </select>
-            <select class="filter-select">
-                <option value="">All statuses</option>
-                <option>Lost</option>
-                <option>Sighting reported</option>
-                <option>Found</option>
-            </select>
-         </div>
+        <input type="text" id="searchBreed" class="filter-input" 
+               placeholder="Search by breed..." oninput="filterPets()">
 
-         <!-- Pet listings -->
-          <!-- TODO: This grid will be populated from the database later -->
-           <div class="pet-grid" id="pet-grid">
-                <p style="color: #6b7280;">No reports have been made yet.</p>
-           </div>
+        <select id="filterSpecies" class="filter-select" onchange="filterPets()">
+            <option value="all">All species</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Rabbit">Rabbit</option>
+            <option value="Bird">Bird</option>
+            <option value="Other">Other</option>
+        </select>
+        
+        <select class="filter-select">
+            <option value="">All statuses</option>
+            <option>Lost</option>
+            <option>Found</option>
+        </select>
+    </div>
 
-       </section>
+    <div class="pet-grid" id="all-pets-grid">
+        <p style="color: #6b7280;">Loading pet reports...</p>
+    </div>
+</section>
 
        <script src="js/main.js"></script>
 </body>
