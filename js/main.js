@@ -3,9 +3,54 @@ console.log("PawFind loaded");
 // Base URL for the backend
 const API_URL = "http://localhost:8080";
 
-// TODO: This will send the form data to the backend later
-function submitForm() {
-    alert("Report has been submitted!");
+// ── SUBMIT LOST PET REPORT ──
+async function submitForm() {
+    // check if user is logged in
+    const loggedInUser = localStorage.getItem("user");
+    if(!loggedInUser) {
+        alert("You must log in first to proceed");
+        return;
+    }
+
+    const user = JSON.parse(loggedInUser);
+
+    const petReport = {
+        user: { id: user.id },
+        petName: document.getElementById("petName").value,
+        species: document.getElementById("species").value,
+        breed: document.getElementById("breed").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        colour: document.getElementById("colour").value,
+        description: document.getElementById("description").value,
+        area: document.getElementById("area").value,
+        dateLost: document.getElementById("dateLost").value,
+        locationDetails: document.getElementById("locationDetails").value
+    };
+
+    // Validation
+    if (!petReport.petName || !petReport.species || !petReport.area || !petReport.dateLost) {
+        alert("Please fill in all required fields!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets/report`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(petReport)
+        });
+
+        if (response.ok) {
+            alert("Report has been submitted!");
+            window.location.href = "lost-pets.html";
+        } else {
+            alert("Something went wrong. Please try again.");
+        }
+    } catch (error) {
+        alert("Could not connect to server.");
+        console.error(error);
+    }
 }
 
 // TODO: Will send login details to the backend later
