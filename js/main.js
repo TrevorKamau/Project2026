@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
             logout();
         };
     }
+    loadRecentPets();
 });
 
 function checkAuth(event) {
@@ -153,5 +154,37 @@ function logout() {
   localStorage.removeItem("user");
   alert("Logged out successfully");
   window.location.href = "index.html";
+}
+
+async function loadRecentPets() {
+    const petGrid = document.getElementById("pet-grid");
+    if (!petGrid) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets`);
+        const pets = await response.json();
+
+        if (pets.length > 0) {
+            petGrid.innerHTML = "";
+
+            // Show only 3 most recent reports on the homepage
+            const recentPets = pets.slice(-3).reverse();
+
+            recentPets.forEach(pet => {
+                const petCard = `
+                <div class="pet-card">
+                    <h3>${pet.petName}</h3>
+                    <p><strong>Species:</strong> ${pet.species}</p>
+                    <p><strong>Area:</strong> ${pet.area}</p>
+                    <p><strong>Status:</strong> <span class="status-lost">${pet.status}</span></p>
+                    <a href="pet-details.html?id=${pet.id}" class="btn-secondary">View Details</a>
+                </div>
+                `;
+                petGrid.innerHTML += petCard;
+            });
+        }
+    } catch (error) {
+        console.error("Error loading list of lost pets", error);
+    }
 }
 
