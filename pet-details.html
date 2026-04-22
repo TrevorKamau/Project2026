@@ -20,13 +20,54 @@
             <div id="pet-details-content">
                 <p>Loading details...</p>
             </div>
+
+            <hr>
+
+            <div class="sighting-section">
+                <h3>Spotted this pet? Help the owner!</h3>
+                <form id="sightingForm">
+                    <div class="form-row">
+                        <input type="text" id="reporterName" placeholder="Your Name (Optional)">
+                        <input type="text" id="reporterContact" placeholder="Phone or Email">
+                    </div>
+
+                    <div class="location-box" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="sightingLocation" placeholder="Where did you see them?" style="flex: 1;">
+                        <button type="button" onclick="getLocation()" class="btn-location">📍 Pin GPS</button>
+                    </div>
+
+                    <input type="hidden" id="lat">
+                    <input type="hidden" id="lng">
+
+                    <textarea id="sightingDescription" placeholder="Description (e.g. wearing a red collar)" style="width: 100%; height: 80px;"></textarea>
+
+                    <button type="button" onclick="submitSighting()" class="btn-primary">Submit Sighting</button>
+                </form>
+
+                <hr>
+
+                <div id="sightings-list">
+                    <h4>Recent Sightings</h4>
+                    <div id="sightings-container">
+                        <p>No sightings have been reported yet.</p>
+                    </div>
+                </div>
+            </div>
+
             <br>
             <a href="index.html" class="btn-secondary">Back to Home</a>
         </section>
 
         <script src="js/main.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", loadPetDetails);
+            document.addEventListener("DOMContentLoaded", function() {
+                loadPetDetails();
+                const urlParams = new URLSearchParams(window.location.search);
+                const petId = urlParams.get('id');
+                if(petId) {
+                    loadSightings(petId);
+                }
+            });
         </script>
     </body>
 </html>

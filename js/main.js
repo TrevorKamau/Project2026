@@ -120,9 +120,39 @@ function Register() {
     });
 }
 
-// TODO: Will send this data to the backend later
-function submitSighting() {
-    alert("Sighting submitted!");
+async function submitSighting() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const petId = urlParams.get('id');
+
+    if (!petId) return;
+
+    const sighting = {
+        petReport: { id: parseInt(petId) },
+        location: document.getElementById("sightingLocation").value,
+        description: document.getElementById("sightingDescription").value,
+        reporterName: document.getElementById("reporterName").value,
+        reporterContact: document.getElementById("reporterContact").value,
+        latitude: document.getElementById("lat").value || null,
+        longitude: document.getElementById("lng").value || null,
+        dateSeen: new Date().toISOString().split('T')[0],
+        timeSeen: new Date().toTimeString().split(' ')[0].substring(0, 5)
+    };
+
+    try {
+        // Send the POST request to the sightings controller
+        const response = await fetch(`${API_URL}/api/sightings`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(sighting)
+        });
+
+        if (response.ok) {
+            alert("Sighting reported! Thank you for your contribution.");
+            location.reload();
+        }
+    } catch (error) {
+        console.error("Error submitting sighting:", error);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -227,9 +257,37 @@ async function loadPetDetails() {
                 </div>
             </div>
         `;
+
+        loadSightings(petId);
+
     } catch (error) {
         contentDiv.innerHTML = "<h2>Error loading details. It might have been removed.</h2>";
         console.error(error);
+    }
+}
+
+async function loadSightings(petId) {
+    const container = document.getElementById("sightings-container");
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/sightings/pet/${petId}`);
+        const sightings = await response.json();
+
+        if (sightings.length > 0) {
+            container.innerHTML = sightings.map(s => `
+                <div class="sighting-card" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
+                    <p><strong>Seen:</strong> ${s.dateSeen} at ${s.timeSeen}</p>
+                    <p><strong>Location:</strong> ${s.location}</p>
+                    <p>${s.description}</p>
+                    ${s.latitude ? `<a href="https://www.google.com/maps?q=${s.latitude},${s.longitude}" target="_blank" class="btn-small">🗺️ View on Map</a>` : ''}
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = "<p>No sightings reported yet.</p>";
+        }
+    } catch (err) {
+        console.error("Error loading sightings:", err);
     }
 }
 
@@ -283,5 +341,30 @@ function filterPets() {
     });
 
     displayPets(filtered);
+}
+
+// Grab the user's gps
+function getLocation() {
+    if (navigator.geolocation) {
+
+        const options = {
+            enableHighAccuracy: true, 
+            timeout: 5000,            
+            maximumAge: 0
+        }
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            document.getElementById("lat").value = lat;
+            document.getElementById("lng").value = lng;
+
+            document.getElementById("sightingLocation").value = `Pinned: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            alert(`Location pinned! (Accurate within ${Math.round(position.coords.accuracy)}m)`);
+        }, () => {
+            alert("Could not get location");
+        }, options);
+    }
 }
 
