@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Settings - PawFind</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav>
+        <a href="index.html" class="logo">🐾 PawFind</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lost-pets.html">Lost Pets</a></li>
+            <li><a href="sightings.html">Report Sighting</a></li>
+            <li><a href="settings.html" class="active">Settings</a></li>
+            <button onclick="logout()">Logout</button>
+        </ul>
+    </nav>
+
+    <!-- Update Profile -->
+    <section class="auth-page">
+        <div class="auth-card">
+            <h2>Update Profile</h2>
+
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Your first name" />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Your last name" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="you@example.com" />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" placeholder="Your phone number" />
+            </div>
+
+            <button class="btn-submit" style="width: 100%;" onclick="updateProfile()">Save Changes</button>
+        </div>
+    </section>
+
+    <!-- Change Password -->
+    <section class="auth-page">
+        <div class="auth-card">
+            <h2>Change Password</h2>
+
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter new password" />
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+            </div>
+
+            <button class="btn-submit" style="width: 100%;" onclick="changePassword()">Change Password</button>
+        </div>
+    </section>
+
+    <!-- Delete Account -->
+    <section class="auth-page">
+        <div class="auth-card">
+            <h2>Delete Account</h2>
+            <p class="auth-switch">Warning: This will permanently delete your account and cannot be undone.</p>
+            <button class="btn-submit" style="width: 100%; background-color: red;" onclick="deleteAccount()">Delete My Account</button>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -73,12 +73,81 @@ function Register() {
     });
 }
 
-// TODO: Will send this data to the backend later
-function submitSighting() {
-    alert("Sighting submitted!");
+    // TODO: Will send this data to the backend later
+    function submitSighting() {
+        alert("Sighting submitted!");
+    }
+    // LOGOUT
+    function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+    }
+    //UPDATE PROFILE
+    async function updateProfile() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    
+    const updatedUser = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value
+    };
+
+    const response = await fetch(`${API_URL}/api/users/${user.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedUser)
+    });
+
+    if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        alert("Profile updated!");
+    } else {
+        alert("Failed to update profile. Please try again.");
+    }
 }
-// LOGOUT
-function logout() {
-  localStorage.removeItem("user");
-  window.location.href = "login.html";
+    //CHANGE PASSWORD
+    async function changePassword() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    const response = await fetch(`${API_URL}/api/users/${user.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...user, password: newPassword })
+    });
+
+    if (response.ok) {
+    alert("Password changed successfully!");
+   } else {
+    alert("Failed to change password. Please try again.");
+   }
+
+ }
+    //DELETE ACCOUNT
+    async function deleteAccount() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    
+    const confirmed = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    
+    if (confirmed) {
+        const response = await fetch(`${API_URL}/api/users/${user.id}`, {
+        method: "DELETE"
+        });
+
+        if (response.ok) {
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        } else {
+            alert("Failed to delete account. Please try again.");
+        }
+
+    }
 }
+
