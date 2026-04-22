@@ -55,10 +55,7 @@ async function submitForm() {
     }
 }
 
-// TODO: Will send login details to the backend later
-//function handleLogin() {
-   // alert("Login clicked!");
-//}
+// ── LOGIN ── 
 async function handleLogin() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -120,22 +117,31 @@ function Register() {
     });
 }
 
+// ── Sighting report ──
 async function submitSighting() {
     const urlParams = new URLSearchParams(window.location.search);
-    const petId = urlParams.get('id');
+    let petId = urlParams.get('id');
 
-    if (!petId) return;
+    if (!petId) {
+        const dropdown = document.getElementById("petReport");
+        if (dropdown) petId = dropdown.value;
+    }
+
+    if (!petId || petId === "") {
+        alert("Please select which pet you saw.");
+        return;
+    }
 
     const sighting = {
         petReport: { id: parseInt(petId) },
-        location: document.getElementById("sightingLocation").value,
+        location: document.getElementById("location").value,
         description: document.getElementById("sightingDescription").value,
         reporterName: document.getElementById("reporterName").value,
         reporterContact: document.getElementById("reporterContact").value,
         latitude: document.getElementById("lat").value || null,
         longitude: document.getElementById("lng").value || null,
-        dateSeen: new Date().toISOString().split('T')[0],
-        timeSeen: new Date().toTimeString().split(' ')[0].substring(0, 5)
+        dateSeen: document.getElementById("date").value || new Date().toISOString().split('T')[0],
+        timeSeen: document.getElementById("time").value || new Date().toTimeString().split(' ')[0].substring(0, 5)
     };
 
     try {
@@ -172,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     loadRecentPets(); // show latest 3 missing pets
     loadAllPets(); // show everything in lost pets tab including filters
+    populatePetDropdown();
 });
 
 function checkAuth(event) {
@@ -182,7 +189,7 @@ function checkAuth(event) {
     }
 }
 
-// LOGOUT
+// ── LOGOUT ──
 function logout() {
   localStorage.removeItem("user");
   alert("Logged out successfully");
@@ -365,6 +372,25 @@ function getLocation() {
         }, () => {
             alert("Could not get location");
         }, options);
+    }
+}
+
+async function populatePetDropdown() {
+    const dropdown = document.getElementById("petReport");
+    if (!dropdown) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets`);
+        const pets = await response.json();
+
+        pets.forEach(pet => {
+            const option = document.createElement("option");
+            option.value = pet.id;
+            option.textContent = `${pet.petName} (${pet.breed} - ${pet.area})`;
+            dropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error loading pets for dropdown", error);
     }
 }
 
