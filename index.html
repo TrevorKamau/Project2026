@@ -15,15 +15,14 @@
             <li><a href="index.html" class="active">Home</a></li>
             <li><a href="lost-pets.html">Lost Pets</a></li>
             <li><a href="sightings.html">Report Sighting</a></li>
-            <li><a href="login.html">Login</a></li>
-            <button onclick="logout()">Logout</button>
+            <li><a href="login.html" id="auth-link">Login</a></li>
         </ul>
      </nav>
 
      <section class="hero">
         <h1>Help bring missing pets back home</h1>
         <p>Report a lost pet or share a sighting with your community.</p>
-        <a href="report.html" class="btn-primary">Report Lost Pet</a> <!-- TODO: this button will navigate to the report form page  -->
+        <a href="report.html" class="btn-primary" onclick="checkAuth(event)">Report Lost Pet</a> <!-- TODO: this button will navigate to the report form page  -->
      </section>
 
      <!-- this section should show pets from the database later -->

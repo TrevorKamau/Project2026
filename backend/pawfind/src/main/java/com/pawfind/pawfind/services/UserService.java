@@ -12,6 +12,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
+
     // Get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();

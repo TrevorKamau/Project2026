@@ -5,6 +5,7 @@ import com.pawfind.pawfind.services.PetReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -28,9 +29,12 @@ public class PetReportController {
 
     // Submit a new lost pet report
     @PostMapping("/report")
-    public PetReport submitReport(@RequestBody PetReport petReport) {
+    public ResponseEntity<PetReport> submitReport(@RequestBody PetReport petReport) {
+        // Automatically set status to "lost" when report is submitted
         petReport.setStatus("LOST");
-        return petReportService.saveReport(petReport);
+
+        PetReport savedReport = petReportService.saveReport(petReport);
+        return ResponseEntity.ok(savedReport);
     }
 
     // Update a report

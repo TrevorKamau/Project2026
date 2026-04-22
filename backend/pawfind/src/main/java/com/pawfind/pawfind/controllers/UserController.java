@@ -5,6 +5,7 @@ import com.pawfind.pawfind.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,5 +38,17 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteuser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User loginDetails) {
+        User user = userService.login(loginDetails.getEmail(), loginDetails.getPassword());
+
+        if (user != null) {
+            //Return the user object
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or password");
+        }
     }
 }
