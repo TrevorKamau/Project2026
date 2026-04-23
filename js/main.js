@@ -257,6 +257,7 @@ async function loadPetDetails() {
                     <h3>Description</h3>
                     <p>${pet.description}</p>
                 </div>
+                <button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>
             </div>
         `;
         loadSightings(petId);
@@ -466,6 +467,27 @@ async function populatePetDropdown() {
         } else {
             alert("Failed to delete account. Please try again.");
         }
+    }
 
     }
+
+    // MARK PET AS FOUND
+    async function markAsFound(petId) {
+    const confirmed = confirm("Mark this pet as found? This will remove the listing.");
+  
+    if (confirmed) {
+     const response = await fetch(`${API_URL}/api/pets/${petId}`, {
+
+       method: "DELETE"
+    });
+
+    if (response.ok) {
+
+       alert("Great news! Glad your pet was found!");
+       window.location.reload();
+    
+    } else {
+       alert("Something went wrong. Please try again.");
+    }
+  }
 }
