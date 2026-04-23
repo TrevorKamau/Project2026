@@ -170,6 +170,18 @@ document.addEventListener("DOMContentLoaded", function() {
         authLink.textContent = `Logout (${user.firstName})`;
         authLink.href = "#";
         authLink.onclick = function() { logout(); };
+
+        const settingsLink = document.getElementById("settings-link");
+        if (settingsLink) {
+            settingsLink.style.display = "block";
+        }
+
+        if (document.getElementById("firstName")) {
+            document.getElementById("firstName").value = user.firstName || "";
+            document.getElementById("lastName").value = user.lastName || "";
+            document.getElementById("email").value = user.email || "";
+            document.getElementById("phone").value = user.phone || "";
+        }
     }
     
     loadRecentPets(); 
@@ -432,7 +444,7 @@ async function populatePetDropdown() {
     const newPassword = document.getElementById("newPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
 
-    if (newPassword !== confirmPassword) {
+    if (!newPassword || newPassword !== confirmPassword) {
         alert("Passwords do not match!");
         return;
     }
@@ -444,6 +456,8 @@ async function populatePetDropdown() {
     });
 
     if (response.ok) {
+    const updatedUser = await response.json();
+    localStorage.setItem("user", JSON.stringify(updatedUser));
     alert("Password changed successfully!");
    } else {
     alert("Failed to change password. Please try again.");
@@ -490,4 +504,36 @@ async function populatePetDropdown() {
        alert("Something went wrong. Please try again.");
     }
   }
+}
+
+async function updateProfile() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) return;
+
+    const updatedData = {
+        ...user,
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/api/users/${user.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedData)
+        });
+
+        if (response.ok) {
+            const newUser = await response.json();
+            localStorage.setItem("user", JSON.stringify(newUser));
+            alert("Profile updated successfully!");
+            location.reload();
+        } else {
+            alert("Failed to update profile.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }

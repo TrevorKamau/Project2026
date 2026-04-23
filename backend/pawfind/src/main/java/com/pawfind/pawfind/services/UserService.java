@@ -45,4 +45,22 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User updateUser(Long id, User userDetails) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setFirstName(userDetails.getFirstName());
+            user.setLastName(userDetails.getLastName());
+            user.setEmail(userDetails.getEmail());
+            user.setPhone(userDetails.getPhone());
+
+            // Only update password if a new one is sent
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+                user.setPassword(userDetails.getPassword());
+            }
+
+            return userRepository.save(user);
+        }
+        return null;
+    }
 }
