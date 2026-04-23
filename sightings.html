@@ -15,7 +15,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="lost-pets">Lost Pets</a></li>
             <li><a href="sightings.html" class="active">Report Sighting</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="login.html" id="auth-link">Login</a></li>
             <button onclick="logout()">Logout</button>
         </ul>
      </nav>
@@ -35,7 +35,6 @@
             <h3>Which pet did you see?</h3>
             <div class="form-group">
                 <label for="petReport">Select a lost pet report</label>
-                <!-- TODO: This dropdown will be populated from the database later -->
                  <select id="petReport">
                     <option value="">Select a lost pet...</option>
                     <option>Not sure / I don't see the pet listed</option>

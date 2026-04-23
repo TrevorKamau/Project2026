@@ -28,6 +28,10 @@ public class PetReport {
     private String locationDetails;
     private String photo;
     private String status;
+    // Email address used to notify original creator of the report
+    private String creatorEmail;
+    // Defualt to yes unless user specified no
+    private Boolean creatorNotificationsEnabled = true;
 
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -77,4 +81,16 @@ public class PetReport {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    
+    // Returns email address linked to notifications for report creator
+    public String getCreatorEmail() { return creatorEmail; }
+
+    // Updates email address used for creator notifications
+    public void setCreatorEmail(String creatorEmail) { this.creatorEmail = creatorEmail; }
+
+    // Returns whether creator email notifications are enabled or not and updates their prefrences
+    public Boolean getCreatorNotificationsEnabled() { return creatorNotificationsEnabled; }
+    public void setCreatorNotificationsEnabled(Boolean creatorNotificationsEnabled) {
+    this.creatorNotificationsEnabled = creatorNotificationsEnabled;
+}
 }
