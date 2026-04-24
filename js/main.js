@@ -212,10 +212,11 @@ async function loadRecentPets() {
     try {
         const response = await fetch(`${API_URL}/api/pets`);
         const pets = await response.json();
+        const lostPets = pets.filter(pet => pet.status === "LOST"); // Only shows pets that are STILL lost, found pets are displayed in the Wall of Hope
 
         if (pets.length > 0) {
             petGrid.innerHTML = "";
-            const recentPets = pets.slice(-3).reverse();
+            const recentPets = lostPets.slice(-3).reverse();
 
             recentPets.forEach(pet => {
                 const petCard = `
@@ -268,8 +269,11 @@ async function loadPetDetails() {
                 <div class="description-box">
                     <h3>Description</h3>
                     <p>${pet.description}</p>
-                </div>
-                <button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>
+                </div> // If pet is found show Wall of Hope message, if not show Mark as Found button
+                ${pet.status === "FOUND"
+                    ? `<p class="success-message">🎉 This pet is on the Wall of Hope!</p>`
+                    : `<button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>`
+                }
             </div>
         `;
         loadSightings(petId);
@@ -310,10 +314,44 @@ async function loadAllPets() {
 
     try {
         const response = await fetch(`${API_URL}/api/pets`);
-        allPets = await response.json();
+        const pets = await response.json(); // Stops found pets from being displayed in the main lost pets list
+        allPets = pets.filter(pet => pet.status === "LOST");
         displayPets(allPets);
     } catch (error) {
         console.error("Error loading list of pets", error);
+    }
+}
+
+async function loadWallOfHope() {
+    const petGrid = document.getElementById("wall-of-hope-grid");
+    if (!petGrid) return;
+
+    try {
+        const response = await fetch(`${API_URL}/api/pets/wall-of-hope`);
+        const pets = await response.json();
+
+        if (!pets || pets.length === 0) {
+            petGrid.innerHTML = "<p>No reunited pets yet — but we stay hopeful 🐾</p>";
+            return;
+        }
+
+        petGrid.innerHTML = "";
+
+        pets.forEach(pet => {
+            petGrid.innerHTML += `
+                <div class="pet-card">
+                    <h3>${pet.petName}</h3>
+                    <p><strong>Species:</strong> ${pet.species}</p>
+                    <p><strong>Breed:</strong> ${pet.breed}</p>
+                    <p><strong>Area:</strong> ${pet.area}</p>
+                    <p><strong>Status:</strong> FOUND 🎉</p>
+                    <a href="pet-details.html?id=${pet.id}" class="btn-secondary">View Details</a>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error("Error loading Wall of Hope:", error);
+        petGrid.innerHTML = "<p>Could not load Wall of Hope.</p>";
     }
 }
 
@@ -485,21 +523,19 @@ async function populatePetDropdown() {
 
     }
 
-    // MARK PET AS FOUND
+    // MARK PET AS FOUND & Move post to Wall of Hope
     async function markAsFound(petId) {
-    const confirmed = confirm("Mark this pet as found? This will remove the listing.");
+    const confirmed = confirm("Mark this pet as found? This will remove the listing and move it to the Wall of Hope.");
   
     if (confirmed) {
-     const response = await fetch(`${API_URL}/api/pets/${petId}`, {
+        const response = await fetch(`${API_URL}/api/pets/${petId}/mark-found`, {
+            method: "PUT"
+        });
 
-       method: "DELETE"
-    });
+        if (response.ok) {
+            alert("Great news! Glad your pet was found! This pet has been moved to the Wall of Hope!");
+            window.location.reload();
 
-    if (response.ok) {
-
-       alert("Great news! Glad your pet was found!");
-       window.location.reload();
-    
     } else {
        alert("Something went wrong. Please try again.");
     }

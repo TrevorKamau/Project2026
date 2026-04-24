@@ -46,6 +46,17 @@ public class PetReportService {
         }
         return null;
     }
+        // Mark a pet as found instead of deleting it
+    public PetReport markAsFound(Long id) {
+        PetReport petReport = petReportRepository.findById(id).orElse(null);
+
+        if (petReport == null) {
+            return null;
+        }
+        //SECURITY PLACEHOLDER, only creator of the post or admin should be allowed to mark the pet as found. For now anyone can.
+        petReport.setStatus("FOUND");
+        return petReportRepository.save(petReport);
+    }
 
     // Delete a report
     public void deleteReport(Long id) {

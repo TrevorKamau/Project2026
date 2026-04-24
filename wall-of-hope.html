@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall of Hope - PawFind</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">🐾 PawFind</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lost-pets.html">Lost Pets</a></li>
+            <li><a href="wall-of-hope.html">Wall of Hope</a></li>
+            <li><a href="login.html" id="auth-link">Login</a></li>
+        </ul>
+    </nav>
+
+    <section class="details-container">
+        <h1>Wall of Hope</h1>
+        <p>Celebrating pets who have been reunited with their owners 🐾</p>
+
+        <div id="wall-of-hope-grid" class="pet-grid">
+            <p>Loading pets...</p>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadWallOfHope);
+    </script>
+</body>
+</html>

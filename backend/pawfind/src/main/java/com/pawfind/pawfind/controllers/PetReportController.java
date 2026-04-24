@@ -82,6 +82,24 @@ public class PetReportController {
         return petReportService.updateReport(id, petReport);
     }
 
+    // Mark a pet as found & move it to Wall of Hope
+    @PutMapping("/{id}/mark-found")
+    public ResponseEntity<PetReport> markAsFound(@PathVariable Long id) {
+        PetReport updated = petReportService.markAsFound(id);
+
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updated);
+    }
+
+    // Wall of Hope gets all found pets
+    @GetMapping("/wall-of-hope")
+    public List<PetReport> getWallOfHopePets() {
+        return petReportService.getReportsByStatus("FOUND");
+    }
+
     // Delete a report - Admin only
     @DeleteMapping("/{id}")
     public void deleteReport(@PathVariable Long id) {
