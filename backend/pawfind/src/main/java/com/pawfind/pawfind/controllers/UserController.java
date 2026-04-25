@@ -31,7 +31,9 @@ public class UserController {
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         user.setRole("OWNER");
-        return userService.saveUser(user);
+        User saved = userService.saveUser(user);
+        saved.setPassword(null); // never send the hash to the browser
+        return saved;
     }
 
     // Delete a user - admin only
@@ -45,7 +47,7 @@ public class UserController {
         User user = userService.login(loginDetails.getEmail(), loginDetails.getPassword());
 
         if (user != null) {
-            //Return the user object
+            user.setPassword(null);
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(401).body("Invalid email or password");
@@ -56,6 +58,7 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(id, userDetails);
         if (updatedUser != null) {
+            updatedUser.setPassword(null);
             return ResponseEntity.ok(updatedUser);
         } else {
             return ResponseEntity.notFound().build();

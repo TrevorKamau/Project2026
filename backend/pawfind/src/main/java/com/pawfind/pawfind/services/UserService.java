@@ -3,6 +3,7 @@ package com.pawfind.pawfind.services;
 import com.pawfind.pawfind.models.User;
 import com.pawfind.pawfind.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -12,10 +13,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
 
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
         return null;
@@ -36,8 +40,9 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // Save a new user - register
+    // Save a new user - register (hashes password before storing)
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -54,9 +59,9 @@ public class UserService {
             user.setEmail(userDetails.getEmail());
             user.setPhone(userDetails.getPhone());
 
-            // Only update password if a new one is sent
+            // Only update password if a new one is provided — hash it before storing
             if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-                user.setPassword(userDetails.getPassword());
+                user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
             }
 
             return userRepository.save(user);
