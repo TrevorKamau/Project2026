@@ -162,19 +162,19 @@ async function submitSighting() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const authLink = document.getElementById("auth-link");
     const loggedInUser = localStorage.getItem("user");
 
-    if (loggedInUser && authLink) {
+    if (loggedInUser) {
         const user = JSON.parse(loggedInUser);
-        authLink.textContent = `Logout (${user.firstName})`;
-        authLink.href = "#";
-        authLink.onclick = function() { logout(); };
+
+        const authLink = document.getElementById("auth-link");
+        if (authLink) authLink.style.display = "none";
+
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) logoutBtn.style.display = "block";
 
         const settingsLink = document.getElementById("settings-link");
-        if (settingsLink) {
-            settingsLink.style.display = "block";
-        }
+        if (settingsLink) settingsLink.style.display = "block";
 
         if (document.getElementById("firstName")) {
             document.getElementById("firstName").value = user.firstName || "";
