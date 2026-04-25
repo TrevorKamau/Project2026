@@ -30,11 +30,14 @@
       <!-- Filters -->
       <section class="listings-page">
     <div class="filters">
-        <input type="text" id="searchName" class="filter-input" 
+        <input type="text" id="searchName" class="filter-input"
                placeholder="Search by name..." oninput="filterPets()">
 
-        <input type="text" id="searchBreed" class="filter-input" 
+        <input type="text" id="searchBreed" class="filter-input"
                placeholder="Search by breed..." oninput="filterPets()">
+
+        <input type="text" id="searchArea" class="filter-input"
+               placeholder="Search by area..." oninput="filterPets()">
 
         <select id="filterSpecies" class="filter-select" onchange="filterPets()">
             <option value="all">All species</option>
@@ -44,12 +47,16 @@
             <option value="Bird">Bird</option>
             <option value="Other">Other</option>
         </select>
-        
-        <select class="filter-select">
-            <option value="">All statuses</option>
-            <option>Lost</option>
-            <option>Found</option>
-        </select>
+
+        <label class="filter-label">From:
+            <input type="date" id="filterDateFrom" class="filter-input" onchange="filterPets()">
+        </label>
+
+        <label class="filter-label">To:
+            <input type="date" id="filterDateTo" class="filter-input" onchange="filterPets()">
+        </label>
+
+        <button onclick="clearFilters()" class="btn-secondary">Clear Filters</button>
     </div>
 
     <div class="pet-grid" id="all-pets-grid">

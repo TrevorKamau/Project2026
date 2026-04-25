@@ -382,17 +382,35 @@ function displayPets(petsToDisplay) {
 function filterPets() {
     const nameQuery = document.getElementById("searchName").value.toLowerCase();
     const breedQuery = document.getElementById("searchBreed").value.toLowerCase();
+    const areaQuery = document.getElementById("searchArea").value.toLowerCase();
     const speciesQuery = document.getElementById("filterSpecies").value;
-
+    const dateFrom = document.getElementById("filterDateFrom").value;
+    const dateTo = document.getElementById("filterDateTo").value;
+ 
     const filtered = allPets.filter(pet => {
         const matchesName = pet.petName.toLowerCase().includes(nameQuery);
         const matchesBreed = pet.breed.toLowerCase().includes(breedQuery);
+        const matchesArea = pet.area.toLowerCase().includes(areaQuery);
         const matchesSpecies = (speciesQuery === "all" || pet.species === speciesQuery);
-
-        return matchesName && matchesBreed && matchesSpecies;
+ 
+        const petDate = pet.dateLost ? new Date(pet.dateLost) : null;
+        const matchesFrom = !dateFrom || (petDate && petDate >= new Date(dateFrom));
+        const matchesTo = !dateTo || (petDate && petDate <= new Date(dateTo));
+ 
+        return matchesName && matchesBreed && matchesArea && matchesSpecies && matchesFrom && matchesTo;
     });
-
+ 
     displayPets(filtered);
+}
+
+function clearFilters() {
+    document.getElementById("searchName").value = "";
+    document.getElementById("searchBreed").value = "";
+    document.getElementById("searchArea").value = "";
+    document.getElementById("filterSpecies").value = "all";
+    document.getElementById("filterDateFrom").value = "";
+    document.getElementById("filterDateTo").value = "";
+    displayPets(allPets);
 }
 
 // Grab the user's gps
