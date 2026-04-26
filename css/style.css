@@ -417,3 +417,18 @@ textarea {
 .filter-label .filter-input {
     min-width: 150px;
 }
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}

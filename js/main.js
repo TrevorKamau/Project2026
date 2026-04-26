@@ -36,6 +36,9 @@ async function submitForm() {
         return;
     }
 
+    const confirmed = confirm(`Are you sure you want to report ${petReport.petName} as lost? This will create a public listing.`);
+    if (!confirmed) return;
+
     try {
         const response = await fetch(`${API_URL}/api/pets/report`, {
             method: "POST",
@@ -275,7 +278,8 @@ async function loadPetDetails() {
                     pet.status === "FOUND"
                     ? `<p class="success-message">🎉 This pet is on the Wall of Hope!</p>`
                     : loggedInUser && pet.user && JSON.parse(loggedInUser).id === pet.user.id
-                        ? `<button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>`
+                        ? `<button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>
+                        <button onclick="deleteReport(${pet.id})" class="btn-danger">Delete Report 🗑️</button>`
                         : ``
                 }
             </div>
@@ -543,6 +547,23 @@ async function populatePetDropdown() {
         }
     }
 
+    }
+
+    // DELETE PET REPORT
+    async function deleteReport(petId) {
+        const confirmed = confirm("Are you sure you want to delete this report? This cannot be undone.");
+        if (!confirmed) return;
+
+        const response = await fetch(`${API_URL}/api/pets/${petId}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            alert("Report has been deleted");
+            window.location.href = "lost-pets.html";
+        } else {
+            alert("Something went wrong. Please try again");
+        }
     }
 
     // MARK PET AS FOUND & Move post to Wall of Hope
