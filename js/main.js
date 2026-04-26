@@ -240,6 +240,7 @@ async function loadPetDetails() {
     const contentDiv = document.getElementById("pet-details-content");
     if (!contentDiv) return;
 
+    const loggedInUser = localStorage.getItem("user");
     const urlParams = new URLSearchParams(window.location.search);
     const petId = urlParams.get('id');
 
@@ -269,10 +270,13 @@ async function loadPetDetails() {
                 <div class="description-box">
                     <h3>Description</h3>
                     <p>${pet.description}</p>
-                </div> // If pet is found show Wall of Hope message, if not show Mark as Found button
-                ${pet.status === "FOUND"
+                </div> 
+                ${  // If pet is found show Wall of Hope message, if not show Mark as Found button
+                    pet.status === "FOUND"
                     ? `<p class="success-message">🎉 This pet is on the Wall of Hope!</p>`
-                    : `<button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>`
+                    : loggedInUser && pet.user && JSON.parse(loggedInUser).id === pet.user.id
+                        ? `<button onclick="markAsFound(${pet.id})" class="btn-primary">Mark as Found ✅</button>`
+                        : ``
                 }
             </div>
         `;
