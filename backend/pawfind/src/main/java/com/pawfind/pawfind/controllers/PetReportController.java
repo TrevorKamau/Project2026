@@ -41,8 +41,8 @@ public class PetReportController {
         petReport.setStatus("LOST");
 
         // If notifications are not specifically disabled, enable them by default
-         if (petReport.getCreatorNotificationsEnabled() == null) {
-        petReport.setCreatorNotificationsEnabled(true);
+        if (petReport.getCreatorNotificationsEnabled() == null) {
+            petReport.setCreatorNotificationsEnabled(true);
         }
         // Save to database
         PetReport savedReport = petReportService.saveReport(petReport);
@@ -74,6 +74,22 @@ public class PetReportController {
         // Save follower to database
         postFollowerRepository.save(follower);
         return ResponseEntity.ok("Followed successfully.");
+    }
+
+    // Unfollow a post
+    @DeleteMapping("/{id}/follow")
+    public ResponseEntity<String> unfollowPost(@PathVariable Long id, @RequestBody FollowRequest request) {
+        if (request.getEmail() == null || request.getEmail().isBlank()) {
+            return ResponseEntity.badRequest().body("Email is required.");
+        }
+
+        boolean exists = postFollowerRepository.existsByPetReportIdAndEmail(id, request.getEmail());
+        if (!exists) {
+            return ResponseEntity.ok("You are not following this post.");
+        }
+
+        postFollowerRepository.deleteByPetReportIdAndEmail(id, request.getEmail());
+        return ResponseEntity.ok("Unfollowed successfully.");
     }
 
     // Update a report

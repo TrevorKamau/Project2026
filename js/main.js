@@ -502,6 +502,37 @@ async function populatePetDropdown() {
         }
     }
 
+    // Allows the user to unfollow a pet post
+    async function unfollowPost() {
+        const followEmail = document.getElementById("followEmail").value;
+        const urlParams = new URLSearchParams(window.location.search);
+        const petId = urlParams.get("id");
+ 
+        if (!followEmail) {
+            alert("Please enter your email address.");
+            return;
+        }
+ 
+        if (!petId) {
+            alert("Could not find post ID.");
+            return;
+        }
+ 
+        try {
+            const response = await fetch(`${API_URL}/api/pets/${petId}/follow`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: followEmail })
+            });
+ 
+            const message = await response.text();
+            alert(message);
+        } catch (error) {
+            console.error("Error unfollowing post:", error);
+            alert("Could not unfollow this post right now.");
+        }
+    }
+
 //CHANGE PASSWORD
     async function changePassword() {
     const user = JSON.parse(localStorage.getItem("user"));

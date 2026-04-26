@@ -13,4 +13,9 @@ public interface PostFollowerRepository extends JpaRepository<PostFollower, Long
     List<PostFollower> findByPetReportId(Long petReportId);
     // Checks if email is already following specific report
     boolean existsByPetReportIdAndEmail(Long petReportId, String email);
+
+    // Removes a follower by pet report id and email
+    @Modifying
+    @Transactional
+    void deleteByPetReportIdAndEmail(Long petReportId, String email);
 }
