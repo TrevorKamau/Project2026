@@ -274,6 +274,8 @@ async function loadPetDetails() {
                     <h3>Description</h3>
                     <p>${pet.description}</p>
                 </div> 
+                <!-- Printable missing pet poster for this report -->
+                <button onclick="printPoster(${pet.id})" class="btn-secondary">Print A Poster!</button> 
                 ${  // If pet is found show Wall of Hope message, if not show Mark as Found button
                     pet.status === "FOUND"
                     ? `<p class="success-message">🎉 This pet is on the Wall of Hope!</p>`
@@ -381,6 +383,7 @@ function displayPets(petsToDisplay) {
                 <p><strong>Breed:</strong> ${pet.breed}</p>
                 <p><strong>Area:</strong> ${pet.area}</p>
                 <a href="pet-details.html?id=${pet.id}" class="btn-secondary">View Details</a>
+                <button onclick="printPoster(${pet.id})" class="btn-secondary">Print A Poster!</button>
             </div>
         `;
         petGrid.innerHTML += petCard;
@@ -648,5 +651,128 @@ async function updateProfile() {
         }
     } catch (error) {
         console.error("Error:", error);
+    }
+}
+
+// Creates a printable missing pet poster in new window (uses details from the pet report, image not working yet.)
+async function printPoster(petId) {
+    try {
+        // Fetch pet details to include in the poster using the petId
+        const response = await fetch(`${API_URL}/api/pets/${petId}`);
+
+        if (!response.ok) {
+            alert("Could not load pet details for poster.");
+            return;
+        }
+
+        const pet = await response.json();
+        // Open a new window and write the poster HTML with pet details
+        const posterWindow = window.open("", "_blank");
+
+        posterWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Missing Pet Poster - ${pet.petName || "Pet"}</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                        padding: 30px;
+                        color: #111;
+                    }
+
+                    .poster {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        border: 6px solid #111;
+                        padding: 30px;
+                    }
+
+                    h1 {
+                        font-size: 52px;
+                        margin: 0 0 10px;
+                        text-transform: uppercase;
+                    }
+
+                    h2 {
+                        font-size: 42px;
+                        margin: 10px 0 20px;
+                    }
+
+                    img {
+                        max-width: 90%;
+                        max-height: 420px;
+                        object-fit: cover;
+                        border: 3px solid #111;
+                        margin-bottom: 20px;
+                    }
+
+                    .details {
+                        font-size: 22px;
+                        line-height: 1.5;
+                        text-align: left;
+                        display: inline-block;
+                        max-width: 650px;
+                    }
+
+                    .footer {
+                        margin-top: 25px;
+                        padding-top: 15px;
+                        border-top: 3px solid #111;
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+
+                    @media print {
+                        button {
+                            display: none;
+                        }
+
+                        body {
+                            padding: 0;
+                        }
+
+                        .poster {
+                            border: 6px solid #111;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="poster">
+                    <h1>Missing Pet</h1>
+                    <h2>${pet.petName || "Unknown Pet"}</h2>
+
+                    ${pet.photo ? `<img src="${pet.photo}" alt="${pet.petName || "Pet photo"}">` : ""}
+
+                    <div class="details">
+                        <p><strong>Species:</strong> ${pet.species || "N/A"}</p>
+                        <p><strong>Breed:</strong> ${pet.breed || "N/A"}</p>
+                        <p><strong>Colour:</strong> ${pet.colour || "N/A"}</p>
+                        <p><strong>Area Last Seen:</strong> ${pet.area || "N/A"}</p>
+                        <p><strong>Date Lost:</strong> ${pet.dateLost || "N/A"}</p>
+                        <p><strong>Description:</strong> ${pet.description || "N/A"}</p>
+                    </div>
+
+                    <div class="footer">
+                        If seen, please report the sighting on PawFind!
+                    </div>
+                </div>
+
+                <script>
+                    // Auto opens browser print dialog when poster loads
+                    window.onload = function() {
+                        window.print();
+                    };
+                <\/script>
+            </body>
+            </html>
+        `);
+
+        posterWindow.document.close();
+    } catch (error) {
+        console.error("Error creating poster:", error);
+        alert("Could not create poster.");
     }
 }
