@@ -620,6 +620,9 @@ async function updateProfile() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return;
 
+    const confirmed = confirm("Are you sure you want to save these changes?");
+    if (!confirmed) return;
+
     const updatedData = {
         ...user,
         firstName: document.getElementById("firstName").value,

@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Settings - PawFind</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -14,7 +17,7 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="lost-pets.html">Lost Pets</a></li>
-            <li><a href="sightings.html">Report Sighting</a></li> 
+            <li><a href="sightings.html">Report Sighting</a></li>
             <li><a href="wall-of-hope.html">Wall of Hope</a></li>
             <li><a href="settings.html" class="active">Settings</a></li>
             <li><a href="login.html" id="auth-link">Login</a></li>
@@ -22,62 +25,60 @@
         </ul>
     </nav>
 
-    <!-- Update Profile -->
-    <section class="auth-page">
-        <div class="auth-card">
-            <h2>Update Profile</h2>
+    <section class="page-header">
+        <h2>Settings</h2>
+        <p>Manage your account details and preferences.</p>
+    </section>
 
+    <div class="settings-layout">
+
+        <!-- Update Profile -->
+        <div class="settings-card">
+            <h3>Update Profile</h3>
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" placeholder="Your first name" />
             </div>
-
             <div class="form-group">
                 <label for="lastName">Last Name</label>
                 <input type="text" id="lastName" placeholder="Your last name" />
             </div>
-
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" placeholder="you@example.com" />
             </div>
-
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="text" id="phone" placeholder="Your phone number" />
             </div>
-
-            <button class="btn-submit" style="width: 100%;" onclick="updateProfile()">Save Changes</button>
+            <button class="btn-submit" style="width:100%;" onclick="updateProfile()">Save Changes</button>
         </div>
-    </section>
 
-    <!-- Change Password -->
-    <section class="auth-page">
-        <div class="auth-card">
-            <h2>Change Password</h2>
+        <div class="settings-right">
 
-            <div class="form-group">
-                <label for="newPassword">New Password</label>
-                <input type="password" id="newPassword" placeholder="Enter new password" />
+            <!-- Change Password -->
+            <div class="settings-card">
+                <h3>Change Password</h3>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" />
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+                </div>
+                <button class="btn-submit" style="width:100%;" onclick="changePassword()">Change Password</button>
             </div>
 
-            <div class="form-group">
-                <label for="confirmPassword">Confirm New Password</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+            <!-- Delete Account -->
+            <div class="settings-card settings-danger">
+                <h3>Delete Account</h3>
+                <p style="color:#6b7280; font-size:0.9rem; margin-bottom:16px;">Warning: This will permanently delete your account and cannot be undone.</p>
+                <button class="btn-danger" style="width:100%;" onclick="deleteAccount()">Delete My Account</button>
             </div>
 
-            <button class="btn-submit" style="width: 100%;" onclick="changePassword()">Change Password</button>
         </div>
-    </section>
-
-    <!-- Delete Account -->
-    <section class="auth-page">
-        <div class="auth-card">
-            <h2>Delete Account</h2>
-            <p class="auth-switch">Warning: This will permanently delete your account and cannot be undone.</p>
-            <button class="btn-submit" style="width: 100%; background-color: red;" onclick="deleteAccount()">Delete My Account</button>
-        </div>
-    </section>
+    </div>
 
     <script src="js/main.js"></script>
 </body>
