@@ -1,6 +1,10 @@
 package com.pawfind.pawfind.services;
 
+import com.pawfind.pawfind.models.PetReport;
 import com.pawfind.pawfind.models.User;
+import com.pawfind.pawfind.repositories.PetReportRepository;
+import com.pawfind.pawfind.repositories.PostFollowerRepository;
+import com.pawfind.pawfind.repositories.SightingRepository;
 import com.pawfind.pawfind.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +19,15 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PetReportRepository petReportRepository;
+
+    @Autowired
+    private SightingRepository sightingRepository;
+
+    @Autowired
+    private PostFollowerRepository postFollowerRepository;
 
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
@@ -46,8 +59,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Delete a user
+    // Delete a user and all their associated data
     public void deleteUser(Long id) {
+        // Get all pet reports belonging to this user
+        List<PetReport> userReports = petReportRepository.findByUserId(id);
+
+        for (PetReport report : userReports) {
+            // Delete sightings linked to each report
+            sightingRepository.deleteAll(sightingRepository.findByPetReportId(report.getId()));
+            // Delete followers linked to each report
+            postFollowerRepository.deleteAll(postFollowerRepository.findByPetReportId(report.getId()));
+        }
+
+        // Delete all the user's pet reports
+        petReportRepository.deleteAll(userReports);
+
+        // Finally delete the user
         userRepository.deleteById(id);
     }
 

@@ -566,7 +566,7 @@ async function populatePetDropdown() {
     async function deleteAccount() {
     const user = JSON.parse(localStorage.getItem("user"));
     
-    const confirmed = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    const confirmed = confirm("Are you sure? Your account and your pet report will be permanently removed. This cannot be undone.");
     
     if (confirmed) {
         const response = await fetch(`${API_URL}/api/users/${user.id}`, {
