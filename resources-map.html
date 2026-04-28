@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Galway Vets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">🐾 PawFind</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lost-pets.html">Lost Pets</a></li>
+            <li><a href="sightings.html">Report Sighting</a></li>
+            <li><a href="wall-of-hope.html">Wall of Hope</a></li>
+            <li><a href="resources-map.html" class="active">Vets & Shelters</a></li>
+            <li id="settings-link" style="display: none;"><a href="settings.html">Settings</a></li>
+            <li><a href="login.html" id="auth-link">Login</a></li>
+            <li id="logout-btn" style="display:none;"><button onclick="logout()">Logout</button></li>
+        </ul>
+    </nav>
+
+    <section class="page-header">
+        <h2>Galway Vets</h2>
+        <p>Helpful local animal services around Galway City.</p>
+    </section>
+
+    <section class="resources-page">
+        <!-- Map Section giving users quick acess to vets and shelters in and around Galway -->
+        <div class="map-card">
+            <h3>Galway Pet Help Map</h3>
+            <!-- Static + embedded Google Maps search for vets & animal shelters around Galway -->
+            <iframe
+                class="resources-map"
+                src="https://www.google.com/maps?q=vets+and+animal+shelters+near+Galway+City+Salthill+Knocknacarra&output=embed"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <!-- Resource Cards providing basic information, maybe add more here -->
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h3>Animal Shelters & Rescues</h3>
+                <ul>
+                    <li>Contact local shelters if a pet has been missing for more than a couple of hours.</li>
+                    <li>Share the pet report link if available.</li>
+                    <li>Ask if any matching pet has been handed in recently.</li>
+                </ul>
+            </div>
+
+            <div class="resource-card">
+                <h3>What To Do If You Find A Pet ?</h3>
+                <ul>
+                    <li>Do NOT chase a frightened animal.</li>
+                    <li>REPORT a sighting through PawFind.</li>
+                    <li>If SAFE, contact a vet or shelter to check for a microchip.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
